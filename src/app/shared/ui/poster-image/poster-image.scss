@@ -1,0 +1,24 @@
+:host {
+  // Position host for fill images and reserve the poster box.
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background-color: var(--color-surface-raised);
+  border-radius: var(--radius-md);
+}
+
+.poster-image {
+  &__fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    block-size: 100%;
+    color: var(--color-text-muted);
+  }
+}
+
+img {
+  // Crop posters instead of distorting them.
+  object-fit: cover;
+}

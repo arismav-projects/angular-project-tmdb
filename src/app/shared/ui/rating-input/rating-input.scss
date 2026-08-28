@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.rating-input {
+  &__slider {
+    flex: 1 1 12rem;
+  }
+
+  &__submit {
+    flex: 0 0 auto;
+  }
+
+  &__submit-label {
+    display: grid;
+
+    > span {
+      grid-area: 1 / 1;
+    }
+
+    > [aria-hidden='true'] {
+      visibility: hidden;
+    }
+  }
+
+  &__status {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+
+    &:empty {
+      display: none;
+    }
+  }
+}

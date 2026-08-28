@@ -1,0 +1,165 @@
+@use '../../../../styles/mixins' as a;
+
+:host {
+  display: block;
+
+  // Let cards shrink inside grid/flex tracks even with long titles.
+  min-inline-size: 0;
+  inline-size: 100%;
+}
+
+.movie-card {
+  // Anchors the stretched link, vote badge and checkbox.
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  @include a.motion-safe {
+    transition:
+      transform var(--duration-base) var(--easing-standard),
+      box-shadow var(--duration-base) var(--easing-standard),
+      border-color var(--duration-base) var(--easing-standard);
+  }
+
+  // Lift the whole clickable tile.
+  &:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-lg);
+
+    @include a.motion-safe {
+      transform: translateY(-4px);
+    }
+  }
+
+  &__art {
+    position: relative;
+
+    // Clip poster zoom to the card's top corners.
+    overflow: hidden;
+    border-start-start-radius: var(--radius-lg);
+    border-start-end-radius: var(--radius-lg);
+  }
+
+  &__poster {
+    display: block;
+
+    // Let the art wrapper own the corners.
+    border-radius: 0;
+
+    @include a.motion-safe {
+      transition: transform var(--duration-base) var(--easing-standard);
+    }
+
+    .movie-card:hover & {
+      @include a.motion-safe {
+        transform: scale(1.06);
+      }
+    }
+  }
+
+  &__vote {
+    position: absolute;
+    inset-block-end: var(--space-xs);
+    inset-inline-end: var(--space-xs);
+
+    // Keep the badge above the stretched link.
+    z-index: 1;
+
+    // Keep the score readable over artwork.
+    background-color: color-mix(in srgb, var(--color-surface-raised) 82%, transparent);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+
+    // Keep rows level when titles wrap differently.
+    flex: 1;
+    padding: var(--space-sm) var(--space-sm) var(--space-xs);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-tight);
+
+    // Long unbroken titles must not widen grid columns.
+    overflow-wrap: anywhere;
+  }
+
+  &__link {
+    // Clamp varied title lengths to keep the grid aligned.
+    @include a.line-clamp(2);
+
+    // Reserve two lines so years align across a row.
+    min-block-size: calc(2em * var(--line-height-tight));
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    text-align: start;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+
+    // Stretch the link target without swallowing the heading.
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  &__year {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-muted);
+  }
+
+  &__select {
+    position: absolute;
+    inset-block-start: var(--space-sm);
+    inset-inline-start: var(--space-sm);
+
+    // Keep the checkbox above the stretched link.
+    z-index: 1;
+
+    // Keep the checkbox visible over light artwork.
+    background-color: color-mix(in srgb, var(--color-surface) 78%, transparent);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+  }
+
+  // Make selection visible at card level, not only in the checkbox.
+  :host(.movie-card--selected) & {
+    border-color: var(--color-accent);
+
+    // Outline composes with hover shadow.
+    outline: 2px solid var(--color-accent);
+    outline-offset: -1px;
+  }
+
+  &__actions {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: var(--space-2xs);
+    padding-inline: var(--space-xs);
+    padding-block-end: var(--space-xs);
+
+    // Hide the slot when no actions are projected.
+    &:empty {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+@use '../mixins' as a;
+
+// Shared entrance animations for routed pages and repeated items.
+
+@keyframes app-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes app-item-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+// Routed components are siblings of the shell outlet, so this stays global.
+:where(.shell__main) > :not(router-outlet) {
+  display: block;
+
+  @include a.motion-safe {
+    animation: app-page-enter var(--duration-base) var(--easing-standard) both;
+  }
+}

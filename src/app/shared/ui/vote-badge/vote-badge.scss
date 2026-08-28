@@ -1,0 +1,29 @@
+:host {
+  display: inline-flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  padding-block: var(--space-2xs);
+  padding-inline: var(--space-xs);
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+  background-color: var(--color-surface-raised);
+  color: var(--color-text);
+  border-radius: var(--radius-full);
+}
+
+:host(.vote-badge--unrated) {
+  color: var(--color-text-muted);
+
+  .vote-badge__icon {
+    color: currentcolor;
+  }
+}
+
+.vote-badge {
+  &__icon {
+    font-size: 1rem;
+    inline-size: 1rem;
+    block-size: 1rem;
+    color: var(--color-accent);
+  }
+}

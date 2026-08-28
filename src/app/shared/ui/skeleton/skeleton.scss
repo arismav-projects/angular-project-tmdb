@@ -1,0 +1,51 @@
+@use '../../../../styles/mixins' as a;
+
+:host {
+  display: grid;
+  gap: var(--space-md);
+}
+
+:host(.skeleton--list) {
+  .skeleton__item {
+    // Match real component sizes to avoid loading layout shift.
+    block-size: 4rem;
+  }
+}
+
+:host(.skeleton--card) {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 11.25rem), 1fr));
+
+  .skeleton__item {
+    // Match real component sizes to avoid loading layout shift.
+    aspect-ratio: 2 / 3;
+  }
+}
+
+.skeleton {
+  &__item {
+    background-color: var(--color-surface-raised);
+    border-radius: var(--radius-md);
+
+    // Skip shimmer for reduced-motion users.
+    @include a.motion-safe {
+      background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--color-surface) 50%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      animation: skeleton-shimmer 1.4s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}

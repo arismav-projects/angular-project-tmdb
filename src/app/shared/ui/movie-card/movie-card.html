@@ -1,0 +1,37 @@
+<article class="movie-card">
+  <div class="movie-card__art">
+    <app-poster-image
+      class="movie-card__poster"
+      [path]="movie().posterPath"
+      alt=""
+      [priority]="priority()"
+    />
+
+    <app-vote-badge class="movie-card__vote" [value]="movie().voteAverage" />
+
+    @if (selectable()) {
+      <mat-checkbox
+        class="movie-card__select"
+        [checked]="selected()"
+        [aria-label]="selectLabel()"
+        (change)="onSelectionChange($event)"
+      />
+    }
+  </div>
+
+  <div class="movie-card__body">
+    <h3 class="movie-card__title">
+      <button class="movie-card__link" type="button" (click)="open.emit(movie().id)">
+        {{ movie().title }}
+      </button>
+    </h3>
+
+    @if (movie().releaseDate; as releaseDate) {
+      <p class="movie-card__year">{{ releaseDate | date: 'yyyy' }}</p>
+    }
+  </div>
+
+  <div class="movie-card__actions">
+    <ng-content select="[actions]" />
+  </div>
+</article>

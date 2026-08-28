@@ -1,0 +1,30 @@
+@use '../../../../styles/mixins' as a;
+
+:host {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.page-header {
+  &__heading {
+    @include a.line-clamp(2);
+
+    margin: 0;
+    flex: 1 1 12rem;
+    min-inline-size: 0;
+    font-size: clamp(1.375rem, 4vw, 1.875rem);
+    line-height: var(--line-height-tight);
+    overflow-wrap: anywhere;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-xs);
+    margin-inline-start: auto;
+
+    &:empty {
+      display: none;
+    }
+  }
+}

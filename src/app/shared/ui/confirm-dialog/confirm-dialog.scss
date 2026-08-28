@@ -1,0 +1,16 @@
+.confirm-dialog {
+  &__message {
+    margin: 0;
+
+    // Keep long dialog copy readable.
+    max-inline-size: 26.25rem;
+  }
+
+  &__confirm {
+    &--destructive {
+      // Use Material tokens instead of deep selectors.
+      --mat-button-filled-container-color: var(--color-danger);
+      --mat-button-filled-label-text-color: var(--color-on-danger);
+    }
+  }
+}

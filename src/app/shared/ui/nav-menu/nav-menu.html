@@ -1,0 +1,47 @@
+<nav class="nav-menu">
+  <ul class="nav-menu__list">
+    @for (section of sections(); track section.item.path) {
+      <li>
+        <div class="nav-menu__row">
+          <a
+            class="nav-menu__link"
+            [routerLink]="section.item.path"
+            routerLinkActive="nav-menu__link--active"
+          >
+            <mat-icon class="nav-menu__icon">{{ section.item.icon }}</mat-icon>
+            <span class="nav-menu__label">{{ section.item.label }}</span>
+          </a>
+
+          @if (section.children.length > 0) {
+            <button
+              class="nav-menu__toggle"
+              type="button"
+              [class.nav-menu__toggle--open]="section.isOpen"
+              [attr.aria-label]="section.toggleLabel"
+              (click)="toggle(section.item.path)"
+            >
+              <mat-icon class="nav-menu__chevron">expand_more</mat-icon>
+            </button>
+          }
+        </div>
+
+        @if (section.isOpen) {
+          <ul class="nav-menu__list nav-menu__list--nested">
+            @for (child of section.children; track child.path) {
+              <li>
+                <a
+                  class="nav-menu__link nav-menu__link--nested"
+                  [routerLink]="child.path"
+                  routerLinkActive="nav-menu__link--active"
+                >
+                  <mat-icon class="nav-menu__icon">{{ child.icon }}</mat-icon>
+                  <span class="nav-menu__label">{{ child.label }}</span>
+                </a>
+              </li>
+            }
+          </ul>
+        }
+      </li>
+    }
+  </ul>
+</nav>

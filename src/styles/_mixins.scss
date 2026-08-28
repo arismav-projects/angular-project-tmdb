@@ -1,0 +1,38 @@
+// Truncate text after a fixed number of lines.
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  overflow: hidden;
+}
+
+// Skip non-essential motion for users who reduce animation.
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+// Shared entrance animation for repeated items.
+@mixin enter-item {
+  @include motion-safe {
+    animation: app-item-enter var(--duration-base) var(--easing-standard) both;
+    animation-delay: min(calc(var(--enter-index, 0) * 30ms), 240ms);
+  }
+}
+
+@mixin card-grid($minimum-width) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, $minimum-width), 1fr));
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin card-grid-item {
+  @include enter-item;
+
+  display: flex;
+  min-inline-size: 0;
+}
