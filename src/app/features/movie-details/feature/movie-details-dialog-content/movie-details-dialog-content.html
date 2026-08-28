@@ -1,0 +1,28 @@
+<h2 mat-dialog-title class="movie-details-dialog__title" [title]="title()">
+  {{ title() }}
+</h2>
+
+<mat-dialog-content class="movie-details-dialog__content">
+  @if (facade.isLoading()) {
+    <app-skeleton variant="list" [count]="5" />
+  } @else if (facade.error() !== null) {
+    <app-empty-state
+      variant="error"
+      heading="Could not load this film"
+      [message]="errorMessage()"
+      actionLabel="Try again"
+      (action)="facade.retry()"
+    />
+  } @else if (facade.movie(); as details) {
+    <app-movie-details-view
+      [movie]="details"
+      [ratingPending]="facade.ratingPending()"
+      [submittedRating]="facade.submittedRating()"
+      (rate)="facade.rate($event)"
+    />
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions class="movie-details-dialog__actions" align="end">
+  <button matButton mat-dialog-close type="button">Close</button>
+</mat-dialog-actions>

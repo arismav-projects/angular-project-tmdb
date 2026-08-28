@@ -1,0 +1,79 @@
+@let details = movie();
+
+<div class="movie-details__layout">
+  <app-poster-image
+    class="movie-details__poster"
+    [path]="details.posterPath"
+    [alt]="'Poster for ' + details.title"
+    sizes="(min-width: 720px) 30vw, 55vw"
+  />
+
+  <div class="movie-details__body">
+    @if (hasOverview()) {
+      <p class="movie-details__overview">{{ details.overview }}</p>
+    } @else {
+      <p class="movie-details__overview movie-details__overview--absent">
+        No synopsis has been written for this film yet.
+      </p>
+    }
+
+    <p class="movie-details__votes">
+      <app-vote-badge [value]="details.voteAverage" />
+      <span class="movie-details__vote-count">{{ voteSummary() }}</span>
+    </p>
+
+    <dl class="movie-details__facts">
+      <div class="movie-details__fact">
+        <dt>Released</dt>
+        <dd>
+          @if (details.releaseDate; as released) {
+            {{ released | date: 'longDate' }}
+          } @else {
+            Not announced
+          }
+        </dd>
+      </div>
+
+      <div class="movie-details__fact">
+        <dt>Budget</dt>
+        <dd>
+          @if (hasBudget()) {
+            {{ details.budget | currency: 'USD' : 'symbol' : '1.0-0' }}
+          } @else {
+            Not disclosed
+          }
+        </dd>
+      </div>
+
+      <div class="movie-details__fact">
+        <dt>Revenue</dt>
+        <dd>
+          @if (hasRevenue()) {
+            {{ details.revenue | currency: 'USD' : 'symbol' : '1.0-0' }}
+          } @else {
+            Not disclosed
+          }
+        </dd>
+      </div>
+    </dl>
+
+    @if (hasLanguages()) {
+      <mat-chip-set class="movie-details__languages" aria-label="Spoken languages">
+        @for (language of details.spokenLanguages; track language) {
+          <mat-chip>{{ language }}</mat-chip>
+        }
+      </mat-chip-set>
+    }
+  </div>
+</div>
+
+<section class="movie-details__rate">
+  <h3 class="movie-details__rate-heading">Rate this film</h3>
+
+  <app-rating-input
+    [options]="ratingOptions"
+    [pending]="ratingPending()"
+    [status]="ratingStatus()"
+    (rate)="rate.emit($event)"
+  />
+</section>
