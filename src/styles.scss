@@ -1,1 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+// Material theme output must load before app tokens and reset.
+@use 'styles/themes';
+@use 'styles/base/tokens';
+@use 'styles/base/reset';
+@use 'styles/base/animations';
