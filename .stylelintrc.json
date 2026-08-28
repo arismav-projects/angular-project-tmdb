@@ -1,0 +1,50 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "ignoreFiles": [
+    "dist/**/*",
+    "coverage/**/*",
+    "node_modules/**/*",
+    "src/styles/_theme-colors.scss"
+  ],
+  "rules": {
+    "scss/at-use-no-unnamespaced": true,
+
+    "color-named": "never",
+
+    "declaration-property-value-disallowed-list": {
+      "/^(height|min-height|max-height)$/": ["/^100vh$/"]
+    },
+
+    "max-nesting-depth": [
+      3,
+      {
+        "ignore": ["blockless-at-rules", "pseudo-classes"]
+      }
+    ],
+
+    "selector-max-id": 0,
+
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
+      {
+        "message": "Expected class to be kebab-case, optionally with BEM __element and --modifier"
+      }
+    ],
+
+    "declaration-no-important": true,
+
+    "custom-property-pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+
+    "property-no-vendor-prefix": [true, { "ignoreProperties": ["-webkit-text-size-adjust"] }],
+
+    "no-descending-specificity": null
+  },
+  "overrides": [
+    {
+      "files": ["src/styles/base/_reset.scss"],
+      "rules": {
+        "declaration-no-important": null
+      }
+    }
+  ]
+}
