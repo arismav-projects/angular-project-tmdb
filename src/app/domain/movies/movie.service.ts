@@ -8,7 +8,7 @@ import { GuestSession, Movie, MovieDetails } from './movie.model';
 
 interface MovieSummaryDto {
   id: number;
-  title: string;
+  original_title: string;
   overview: string;
   poster_path: string | null;
   release_date: string;
@@ -44,7 +44,7 @@ const GUEST_SESSION_FALLBACK_MS = 23 * 60 * 60 * 1000;
 export function toMovie(dto: MovieSummaryDto): Movie {
   return {
     id: dto.id,
-    title: dto.title,
+    title: dto.original_title,
     overview: dto.overview,
     posterPath: dto.poster_path,
     // TMDB uses an empty string when the release date is unknown.

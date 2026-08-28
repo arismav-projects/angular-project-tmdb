@@ -1,6 +1,8 @@
 import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
+const DEFAULT_TITLE_PATTERN = /^[\p{L}\p{M}\p{N} ]+$/u;
+
 /// Reusable search-term validation. Empty values remain valid; required is caller-owned.
 @Directive({
   selector: '[appSearchValidator]',
@@ -8,7 +10,7 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 })
 export class SearchValidatorDirective implements Validator {
   readonly minChars = input(3);
-  readonly allowedPattern = input<RegExp>(/^[a-z0-9 ]+$/i);
+  readonly allowedPattern = input<RegExp>(DEFAULT_TITLE_PATTERN);
 
   validate(control: AbstractControl): ValidationErrors | null {
     const raw: unknown = control.value;
@@ -19,7 +21,10 @@ export class SearchValidatorDirective implements Validator {
     }
 
     if (!this.allowedPattern().test(value)) {
-      return { searchPattern: true, message: 'Use letters, numbers and spaces only.' };
+      return {
+        searchPattern: true,
+        message: 'Use letters, numbers and spaces only.',
+      };
     }
 
     if (value.length < this.minChars()) {
