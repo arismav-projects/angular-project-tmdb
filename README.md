@@ -1,59 +1,92 @@
-# NovibetAssessment
+# Movie Collections
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.2.
+Movie Collections is an Angular app for finding films on TMDB, viewing details, submitting guest
+ratings and organising films into browser-local collections.
 
-## Development server
+It uses Angular 21, standalone components, signals, zoneless change detection, Angular Material and
+SCSS.
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
-```
+- Debounced movie search with pagination and retry states.
+- Deep-linked movie details that open as a dialog over the current page.
+- TMDB guest-session ratings.
+- Create, edit and delete collections stored in `localStorage`.
+- Add multiple search results to one or more collections.
+- Responsive layouts, light/dark themes and online/offline feedback.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Getting Started
 
 ```bash
-ng generate --help
+npm ci
+npm start
 ```
 
-## Building
+The development server runs at `http://localhost:4200`.
 
-To build the project run:
+The repository includes a demo TMDB API key in `src/environments/` so the app can run immediately.
+The key is visible in the browser bundle because this is a client-only application. A production
+system should call TMDB through a backend or proxy.
 
-```bash
-ng build
+## Commands
+
+| Command                | Purpose                                 |
+| ---------------------- | --------------------------------------- |
+| `npm start`            | Start the development server            |
+| `npm run build`        | Create a production build               |
+| `npm run lint`         | Run ESLint and Stylelint                |
+| `npm run lint:fix`     | Fix supported lint issues               |
+| `npm run format`       | Format source and configuration files   |
+| `npm run format:check` | Check formatting without changing files |
+
+## Structure
+
+```text
+src/app/
+  core/       configuration, interceptors and app-wide services
+  domain/     movie and collection models, API access and persistence
+  features/   routed pages, feature state and feature-specific UI
+  layout/     application shell, navigation and global feedback
+  shared/     reusable UI components and directives
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Feature folders use the following split where needed:
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```text
+feature/      routed components and orchestration
+data-access/  feature facades and state
+ui/           presentational components
 ```
 
-## Running end-to-end tests
+## Architecture
 
-For end-to-end (e2e) testing, run:
+- `MovieService` is the TMDB boundary. API responses are mapped to app models before reaching the
+  UI.
+- `SearchFacade` owns query, pagination, result status and selection state.
+- `MovieDetailsFacade` owns the details request and rating state.
+- `CollectionsService` owns collection rules and `localStorage` persistence.
+- Request state uses signals with explicit `idle`, `loading`, `loaded` and `error` statuses.
+- Effects unsubscribe from previous requests when their inputs change, preventing stale responses
+  from replacing newer data.
+- HTTP errors are normalised through `toAppError()` and displayed either inline or as action
+  feedback.
+- Feature UI receives data through `input()` and reports actions through `output()`.
 
-```bash
-ng e2e
-```
+Movie details are child routes of Search and Collection Detail. This keeps the page mounted behind
+the dialog and gives each film a direct URL. Import boundaries between `core`, `domain`, `features`,
+`layout` and `shared` are enforced by `eslint.config.js`.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The app does not use NgRx or NGXS. Its state is small and feature-owned, so Angular signals and
+focused services are enough.
 
-## Additional Resources
+## Styling
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Angular Material provides the component foundation and M3 theme. Global tokens, resets, themes and
+mixins live under `src/styles/`; component styles remain scoped beside their components. Shared SCSS
+mixins cover repeated card-grid layouts and interaction patterns.
+
+## Limitations
+
+- The TMDB key is public in the client bundle.
+- Collections are available only in the browser where they were created.
+- TMDB guest ratings depend on temporary guest sessions.
