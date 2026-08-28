@@ -1,0 +1,45 @@
+@if (collection(); as current) {
+  <app-page-header [heading]="current.title" backLabel="Back to collections" (back)="back()">
+    <app-action-button actions icon="edit" label="Edit" (action)="edit()" />
+  </app-page-header>
+
+  @if (current.description) {
+    <p class="collection-detail__description">{{ current.description }}</p>
+  }
+
+  @if (current.movies.length === 0) {
+    <app-empty-state
+      variant="empty"
+      heading="No films in this collection"
+      message="Search for a film and add it from the results."
+      actionLabel="Go to search"
+      (action)="goToSearch()"
+    />
+  } @else {
+    <ul class="collection-detail__grid">
+      @for (movie of current.movies; track movie.id) {
+        <li class="collection-detail__item" [style.--enter-index]="$index">
+          <app-movie-card [movie]="movie" (open)="openMovie($event)">
+            <app-action-button
+              actions
+              icon="playlist_remove"
+              label="Remove"
+              (action)="requestRemove(movie)"
+            />
+          </app-movie-card>
+        </li>
+      }
+    </ul>
+  }
+} @else {
+  <app-empty-state
+    variant="error"
+    heading="Collection not found"
+    message="It may have been deleted, or the link may be out of date."
+    actionLabel="Back to collections"
+    (action)="back()"
+  />
+}
+
+<!-- Routed movie-details dialog outlet. -->
+<router-outlet />

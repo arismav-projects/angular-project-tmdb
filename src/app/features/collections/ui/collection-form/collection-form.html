@@ -1,0 +1,35 @@
+<form class="collection-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title" autocomplete="off" required />
+
+    @if (form.controls.title.hasError('required')) {
+      <mat-error>Give the collection a name.</mat-error>
+    } @else if (form.controls.title.hasError('maxlength')) {
+      <mat-error>Keep the name to {{ titleMax }} characters or fewer.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+
+    <textarea matInput formControlName="description" rows="3"></textarea>
+
+    <mat-hint>Optional</mat-hint>
+
+    @if (form.controls.description.hasError('maxlength')) {
+      <mat-error>Keep the description to {{ descriptionMax }} characters or fewer.</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="collection-form__actions">
+    <app-action-button icon="close" label="Cancel" (action)="dismiss.emit()" />
+
+    <app-action-button
+      type="submit"
+      appearance="filled"
+      [icon]="submitIcon()"
+      [label]="submitLabel()"
+    />
+  </div>
+</form>

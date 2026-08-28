@@ -1,0 +1,35 @@
+<app-page-header heading="Your collections">
+  <app-action-button
+    actions
+    appearance="filled"
+    icon="add"
+    label="New collection"
+    (action)="create()"
+  />
+</app-page-header>
+
+@if (collections.isEmpty()) {
+  <app-empty-state
+    variant="empty"
+    heading="No collections yet"
+    message="Group films you want to remember. Collections live in this browser."
+    actionLabel="Create a collection"
+    (action)="create()"
+  />
+} @else {
+  <ul class="collections-page__grid">
+    @for (collection of collections.collections(); track collection.id) {
+      <li class="collections-page__item" [style.--enter-index]="$index">
+        <app-collection-card [collection]="collection" (open)="open($event)">
+          <app-action-button actions icon="edit" label="Edit" (action)="edit(collection.id)" />
+          <app-action-button
+            actions
+            icon="delete"
+            label="Delete"
+            (action)="requestDelete(collection)"
+          />
+        </app-collection-card>
+      </li>
+    }
+  </ul>
+}

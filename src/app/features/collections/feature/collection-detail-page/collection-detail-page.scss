@@ -1,0 +1,23 @@
+@use '../../../../../styles/mixins' as a;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.collection-detail {
+  &__description {
+    margin: 0;
+    max-inline-size: 40rem;
+    color: var(--color-text-muted);
+  }
+
+  &__grid {
+    @include a.card-grid(11.25rem);
+  }
+
+  &__item {
+    @include a.card-grid-item;
+  }
+}

@@ -1,0 +1,27 @@
+<mat-card class="collection-card" appearance="outlined">
+  <mat-card-header>
+    <h3 mat-card-title class="collection-card__title">
+      <button class="collection-card__link" type="button" (click)="open.emit(collection().id)">
+        {{ collection().title }}
+      </button>
+    </h3>
+  </mat-card-header>
+
+  <mat-card-content class="collection-card__body">
+    <!-- Reserves the description height when empty. -->
+    <p class="collection-card__description">{{ collection().description }}</p>
+  </mat-card-content>
+
+  <mat-divider />
+
+  <mat-card-actions class="collection-card__footer">
+    <span class="collection-card__count">
+      <mat-icon>movie</mat-icon>
+      {{ summary() }}
+    </span>
+
+    <span class="collection-card__actions">
+      <ng-content select="[actions]" />
+    </span>
+  </mat-card-actions>
+</mat-card>

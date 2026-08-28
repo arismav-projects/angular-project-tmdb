@@ -1,0 +1,108 @@
+@use '../../../../../styles/mixins' as a;
+
+:host {
+  display: block;
+
+  // Let cards shrink inside grid tracks.
+  min-inline-size: 0;
+  block-size: 100%;
+}
+
+.collection-card {
+  // Override Material through tokens.
+  --mat-card-outlined-outline-color: var(--color-border);
+  --mat-card-outlined-container-color: var(--color-surface-raised);
+
+  block-size: 100%;
+
+  @include a.motion-safe {
+    transition:
+      border-color var(--duration-base) var(--easing-standard),
+      box-shadow var(--duration-base) var(--easing-standard);
+  }
+
+  &:hover {
+    --mat-card-outlined-outline-color: var(--color-border-strong);
+
+    box-shadow: var(--shadow-md);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-tight);
+
+    // Reserve two title lines so descriptions align.
+    min-block-size: calc(2em * var(--line-height-tight));
+
+    // Long unbroken titles must not widen grid columns.
+    overflow-wrap: anywhere;
+  }
+
+  &__link {
+    @include a.line-clamp(2);
+
+    padding: 0;
+    font: inherit;
+    text-align: start;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+
+    // Stretch the link target without swallowing the heading.
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  &__body {
+    // Keep card footers aligned.
+    flex: 1;
+    padding-block: var(--space-xs);
+  }
+
+  &__description {
+    @include a.line-clamp(2);
+
+    margin: 0;
+    min-block-size: calc(2em * var(--line-height-base));
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-base);
+    color: var(--color-text-muted);
+    overflow-wrap: anywhere;
+  }
+
+  &__footer {
+    justify-content: space-between;
+    gap: var(--space-xs);
+  }
+
+  &__count {
+    display: flex;
+    flex: none;
+    gap: var(--space-2xs);
+    align-items: center;
+    padding-inline-start: var(--space-xs);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+
+    mat-icon {
+      font-size: 1.125rem;
+      inline-size: 1.125rem;
+      block-size: 1.125rem;
+    }
+  }
+
+  &__actions {
+    // Keep action buttons above the stretched link.
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: var(--space-2xs);
+    justify-content: flex-end;
+  }
+}

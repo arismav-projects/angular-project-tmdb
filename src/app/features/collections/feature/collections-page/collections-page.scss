@@ -1,0 +1,17 @@
+@use '../../../../../styles/mixins' as a;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.collections-page {
+  &__grid {
+    @include a.card-grid(16.25rem);
+  }
+
+  &__item {
+    @include a.card-grid-item;
+  }
+}
