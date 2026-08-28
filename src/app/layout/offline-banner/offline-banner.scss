@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.offline-banner {
+  &__text {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding-block: var(--space-xs);
+    padding-inline: var(--space-md);
+    font-size: var(--font-size-sm);
+
+    // Offline is neutral, not destructive.
+    background-color: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    border-block-end: 1px solid var(--color-border);
+
+    // Keep the message readable on narrow screens.
+    text-align: center;
+    text-wrap: balance;
+
+    mat-icon {
+      flex: none;
+      font-size: 1.125rem;
+      inline-size: 1.125rem;
+      block-size: 1.125rem;
+    }
+  }
+}

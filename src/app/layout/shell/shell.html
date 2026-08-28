@@ -1,0 +1,24 @@
+<mat-toolbar class="shell__toolbar">
+  <button matIconButton type="button" aria-label="Toggle navigation" (click)="drawer()?.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <a class="shell__brand" routerLink="/search">Movie Collections</a>
+
+  <app-theme-toggle />
+</mat-toolbar>
+
+<app-global-loading-bar />
+<app-offline-banner />
+
+<mat-sidenav-container class="shell__body">
+  <mat-sidenav class="shell__sidenav" [mode]="isDocked() ? 'side' : 'over'" [opened]="isDocked()">
+    <app-nav-menu [items]="links" />
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <main class="shell__main">
+      <router-outlet (activate)="onPageChange()" />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
