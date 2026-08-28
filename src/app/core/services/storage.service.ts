@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LOCAL_STORAGE_KEYS } from '@core/storage/local-storage.keys';
 
 /// localStorage access with shape validation and guarded browser calls.
 @Injectable({ providedIn: 'root' })
@@ -63,7 +64,7 @@ export class StorageService {
 /// Checks that localStorage exists and accepts writes.
 function resolveStorage(): Storage | null {
   try {
-    const probeKey = '__storage_probe__';
+    const probeKey = LOCAL_STORAGE_KEYS.storageProbe;
     localStorage.setItem(probeKey, probeKey);
     localStorage.removeItem(probeKey);
     return localStorage;

@@ -1,11 +1,10 @@
 import { StorageService } from '@core/services/storage.service';
+import { LOCAL_STORAGE_KEYS } from '@core/storage/local-storage.keys';
 import { inject, Injectable } from '@angular/core';
 import { finalize, Observable, of, shareReplay, tap } from 'rxjs';
 
 import { GuestSession, isGuestSessionValid } from './movie.model';
 import { MovieService } from './movie.service';
-
-const STORAGE_KEY = 'tmdb-guest-session';
 
 function isStoredGuestSession(value: unknown): value is GuestSession {
   if (typeof value !== 'object' || value === null) {
@@ -28,7 +27,7 @@ export class GuestSessionService {
   private creating: Observable<GuestSession> | null = null;
 
   current(): Observable<GuestSession> {
-    const stored = this.storage.read(STORAGE_KEY, isStoredGuestSession);
+    const stored = this.storage.read(LOCAL_STORAGE_KEYS.guestSession, isStoredGuestSession);
 
     if (stored !== null && isGuestSessionValid(stored, Date.now())) {
       return of(stored);
@@ -36,7 +35,7 @@ export class GuestSessionService {
 
     this.creating ??= this.movies.createGuestSession().pipe(
       tap((session) => {
-        this.storage.write(STORAGE_KEY, session);
+        this.storage.write(LOCAL_STORAGE_KEYS.guestSession, session);
       }),
       // Clear the cached request after success, error, or unsubscribe.
       finalize(() => {

@@ -1,5 +1,6 @@
 import { NotificationService } from '@core/services/notification.service';
 import { StorageService } from '@core/services/storage.service';
+import { LOCAL_STORAGE_KEYS } from '@core/storage/local-storage.keys';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { MovieSnapshot } from '@domain/movies';
 
@@ -12,8 +13,6 @@ import {
   updateDetails,
 } from './collection.model';
 
-const STORAGE_KEY = 'movie-collections';
-
 /// Shared collection state with localStorage persistence.
 @Injectable({ providedIn: 'root' })
 export class CollectionsService {
@@ -21,7 +20,7 @@ export class CollectionsService {
   private readonly notifications = inject(NotificationService);
 
   private readonly _collections = signal<readonly Collection[]>(
-    this.storage.read(STORAGE_KEY, isCollectionArray) ?? [],
+    this.storage.read(LOCAL_STORAGE_KEYS.collections, isCollectionArray) ?? [],
   );
 
   readonly collections = this._collections.asReadonly();
@@ -79,7 +78,7 @@ export class CollectionsService {
   private commit(collections: readonly Collection[]): void {
     this._collections.set(collections);
 
-    if (!this.storage.write(STORAGE_KEY, collections)) {
+    if (!this.storage.write(LOCAL_STORAGE_KEYS.collections, collections)) {
       this.notifications.error('Your collections could not be saved to this browser.');
     }
   }

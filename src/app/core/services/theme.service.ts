@@ -1,8 +1,7 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
+import { LOCAL_STORAGE_KEYS } from '@core/storage/local-storage.keys';
 
 import { StorageService } from './storage.service';
-
-const STORAGE_KEY = 'theme-preference';
 
 function isBoolean(value: unknown): value is boolean {
   return typeof value === 'boolean';
@@ -14,7 +13,7 @@ export class ThemeService {
   private readonly storage = inject(StorageService);
 
   private readonly _isDark = signal(
-    this.storage.read(STORAGE_KEY, isBoolean) ??
+    this.storage.read(LOCAL_STORAGE_KEYS.themePreference, isBoolean) ??
       window.matchMedia('(prefers-color-scheme: dark)').matches,
   );
 
@@ -24,7 +23,7 @@ export class ThemeService {
     // External side effects: DOM attribute and localStorage.
     effect(() => {
       document.documentElement.setAttribute('data-theme', this._isDark() ? 'dark' : 'light');
-      this.storage.write(STORAGE_KEY, this._isDark());
+      this.storage.write(LOCAL_STORAGE_KEYS.themePreference, this._isDark());
     });
   }
 
