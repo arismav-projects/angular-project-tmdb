@@ -1,0 +1,25 @@
+:host {
+  position: sticky;
+
+  // Keep selection controls visible while scrolling results.
+  inset-block-end: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.selection-bar {
+  &__count {
+    margin: 0;
+
+    // Push buttons to the trailing edge.
+    margin-inline-end: auto;
+    font-weight: 600;
+  }
+}

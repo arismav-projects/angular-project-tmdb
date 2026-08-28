@@ -1,0 +1,66 @@
+<ng-template #paginator let-footer="footer">
+  <mat-paginator
+    class="search-results__paginator"
+    [class.search-results__paginator--footer]="footer"
+    [length]="length()"
+    [pageSize]="pageSize()"
+    [pageIndex]="pageIndex()"
+    [hidePageSize]="true"
+    aria-label="Search results pages"
+    (page)="onPage($event)"
+  />
+</ng-template>
+
+@if (showToolbar()) {
+  <div class="search-results__header">
+    <p class="search-results__summary" aria-live="polite">
+      <span class="search-results__summary-label">Search results</span>
+      <strong class="search-results__summary-count">{{ resultCountLabel() }}</strong>
+    </p>
+
+    <ng-container [ngTemplateOutlet]="paginator" [ngTemplateOutletContext]="{ footer: false }" />
+  </div>
+}
+
+@if (isLoading()) {
+  <app-skeleton variant="card" [count]="8" />
+} @else if (errorMessage()) {
+  <app-empty-state
+    variant="error"
+    heading="Search failed"
+    [message]="errorMessage()"
+    actionLabel="Try again"
+    (action)="retry.emit()"
+  />
+} @else if (isIdle()) {
+  <app-empty-state
+    variant="empty"
+    heading="Find a movie"
+    message="Type at least three characters to search."
+  />
+} @else if (isEmpty()) {
+  <app-empty-state
+    variant="empty"
+    heading="No films matched"
+    message="Try a different title, or check the spelling."
+  />
+} @else {
+  <ul class="search-results__grid">
+    @for (movie of vm().movies; track movie.id) {
+      <li class="search-results__item" [style.--enter-index]="$index">
+        <app-movie-card
+          [movie]="movie"
+          [selectable]="true"
+          [selected]="selectedIds().has(movie.id)"
+          [priority]="$index < 4"
+          (selectedChange)="selectionChange.emit({ movie, isSelected: $event })"
+          (open)="open.emit($event)"
+        />
+      </li>
+    }
+  </ul>
+}
+
+@if (showToolbar()) {
+  <ng-container [ngTemplateOutlet]="paginator" [ngTemplateOutletContext]="{ footer: true }" />
+}

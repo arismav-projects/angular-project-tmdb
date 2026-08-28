@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>{{ heading() }}</h2>
+
+<mat-dialog-content>
+  @if (store.count() > 0) {
+    <ul class="add-to-collection__list">
+      @for (collection of store.collections(); track collection.id) {
+        <li class="add-to-collection__item">
+          <mat-checkbox
+            [checked]="isSelected(collection.id)"
+            (change)="onToggle(collection.id, $event)"
+          >
+            {{ collection.title }}
+            <span class="add-to-collection__count"> {{ collection.movies.length }} film(s) </span>
+          </mat-checkbox>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="add-to-collection__empty">
+      You have no collections yet. Create one and the films will be waiting.
+    </p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button matButton type="button" mat-dialog-close>Cancel</button>
+
+  @if (store.count() > 0) {
+    <button matButton="filled" type="button" [disabled]="selectedCount() === 0" (click)="confirm()">
+      Add
+    </button>
+  } @else {
+    <button matButton="filled" type="button" (click)="createCollection()">
+      Create a collection
+    </button>
+  }
+</mat-dialog-actions>

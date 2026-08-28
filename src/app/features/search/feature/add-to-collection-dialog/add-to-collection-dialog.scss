@@ -1,0 +1,26 @@
+.add-to-collection {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+
+    // Keep long collection lists inside the dialog.
+    max-block-size: 40dvh;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+  }
+
+  &__count {
+    margin-inline-start: var(--space-xs);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  &__empty {
+    margin: 0;
+    max-inline-size: 22.5rem;
+    color: var(--color-text-muted);
+  }
+}

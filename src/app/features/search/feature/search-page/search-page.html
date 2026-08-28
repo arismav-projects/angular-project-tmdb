@@ -1,0 +1,28 @@
+<app-page-header heading="Search movies" />
+
+<app-search-field
+  label="Film title"
+  [minChars]="3"
+  [initialQuery]="search.query()"
+  class="search-page__field"
+  (queryChange)="search.setQuery($event)"
+/>
+
+<app-search-results
+  [vm]="resultsVm()"
+  (open)="openDetails($event)"
+  (selectionChange)="onSelection($event)"
+  (pageSelected)="onPageSelected($event)"
+  (retry)="search.retry()"
+/>
+
+@if (search.selectedCount() > 0) {
+  <app-selection-bar
+    [count]="search.selectedCount()"
+    (add)="addSelectedToCollection()"
+    (clear)="search.clearSelection()"
+  />
+}
+
+<!-- Routed movie-details dialog outlet. -->
+<router-outlet />
