@@ -1,6 +1,13 @@
 @if (collection(); as current) {
   <app-page-header [heading]="current.title" backLabel="Back to collections" (back)="back()">
-    <app-action-button actions icon="edit" label="Edit" (action)="edit()" />
+    <app-action-button
+      actions
+      appearance="tonal"
+      tone="secondary"
+      icon="edit"
+      label="Edit"
+      (action)="edit()"
+    />
   </app-page-header>
 
   @if (current.description) {
@@ -22,6 +29,7 @@
           <app-movie-card [movie]="movie" (open)="openMovie($event)">
             <app-action-button
               actions
+              tone="error"
               icon="playlist_remove"
               label="Remove"
               (action)="requestRemove(movie)"

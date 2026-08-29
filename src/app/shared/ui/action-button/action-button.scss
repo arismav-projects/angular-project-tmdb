@@ -1,3 +1,44 @@
 :host {
   display: contents;
 }
+
+@mixin button-tone($accent, $on-accent, $container, $on-container) {
+  --mat-button-filled-container-color: #{$accent};
+  --mat-button-filled-label-text-color: #{$on-accent};
+  --mat-button-filled-state-layer-color: #{$on-accent};
+  --mat-button-filled-ripple-color: color-mix(in srgb, #{$on-accent} 12%, transparent);
+  --mat-button-outlined-label-text-color: #{$accent};
+  --mat-button-outlined-outline-color: #{$accent};
+  --mat-button-outlined-state-layer-color: #{$accent};
+  --mat-button-outlined-ripple-color: color-mix(in srgb, #{$accent} 12%, transparent);
+  --mat-button-protected-label-text-color: #{$accent};
+  --mat-button-protected-state-layer-color: #{$accent};
+  --mat-button-protected-ripple-color: color-mix(in srgb, #{$accent} 12%, transparent);
+  --mat-button-text-label-text-color: #{$accent};
+  --mat-button-text-state-layer-color: #{$accent};
+  --mat-button-text-ripple-color: color-mix(in srgb, #{$accent} 12%, transparent);
+  --mat-button-tonal-container-color: #{$container};
+  --mat-button-tonal-label-text-color: #{$on-container};
+  --mat-button-tonal-state-layer-color: #{$on-container};
+  --mat-button-tonal-ripple-color: color-mix(in srgb, #{$on-container} 12%, transparent);
+}
+
+.action-button {
+  &--secondary {
+    @include button-tone(
+      var(--mat-sys-secondary),
+      var(--mat-sys-on-secondary),
+      var(--mat-sys-secondary-container),
+      var(--mat-sys-on-secondary-container)
+    );
+  }
+
+  &--error {
+    @include button-tone(
+      var(--mat-sys-error),
+      var(--mat-sys-on-error),
+      var(--mat-sys-error-container),
+      var(--mat-sys-on-error-container)
+    );
+  }
+}

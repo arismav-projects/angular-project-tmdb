@@ -13,7 +13,15 @@ import { MatIconModule } from '@angular/material/icon';
       </button>
     }
 
-    <h1 class="page-header__heading">{{ heading() }}</h1>
+    <div class="page-header__identity">
+      @if (icon()) {
+        <span class="page-header__icon" aria-hidden="true">
+          <mat-icon>{{ icon() }}</mat-icon>
+        </span>
+      }
+
+      <h1 class="page-header__heading">{{ heading() }}</h1>
+    </div>
 
     <div class="page-header__actions">
       <ng-content select="[actions]" />
@@ -23,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class PageHeader {
   readonly heading = input.required<string>();
+  readonly icon = input('');
   readonly backLabel = input('');
 
   readonly back = output<void>();

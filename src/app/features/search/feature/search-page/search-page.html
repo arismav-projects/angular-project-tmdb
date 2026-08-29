@@ -1,12 +1,13 @@
-<app-page-header heading="Search movies" />
+<app-page-header heading="Discover movies" icon="search" />
 
-<app-search-field
-  label="Movie title"
-  [minChars]="3"
-  [initialQuery]="search.query()"
-  class="search-page__field"
-  (queryChange)="search.setQuery($event)"
-/>
+<div class="search-page__search">
+  <app-search-field
+    label="Movie title"
+    [minChars]="3"
+    [initialQuery]="search.query()"
+    (queryChange)="search.setQuery($event)"
+  />
+</div>
 
 <app-search-results
   [vm]="resultsVm()"

@@ -1,12 +1,13 @@
 :host {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-lg);
 }
 
 .search-page {
-  &__field {
-    // Cap the field width for readability.
+  &__search {
+    align-self: flex-start;
+    inline-size: 100%;
     max-inline-size: 30rem;
   }
 }

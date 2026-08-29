@@ -10,7 +10,12 @@ import { CollectionForm, CollectionFormValue } from '../../ui/collection-form/co
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageHeader, CollectionForm],
   template: `
-    <app-page-header heading="New collection" backLabel="Back to collections" (back)="cancel()" />
+    <app-page-header
+      heading="New collection"
+      icon="create_new_folder"
+      backLabel="Back to collections"
+      (back)="cancel()"
+    />
 
     <app-collection-form
       submitLabel="Create"

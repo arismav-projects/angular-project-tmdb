@@ -1,4 +1,21 @@
 <mat-card class="collection-card" appearance="outlined">
+  <div
+    class="collection-card__preview"
+    [style.--poster-count]="previewMovies().length || 1"
+    aria-hidden="true"
+  >
+    @for (movie of previewMovies(); track movie.id) {
+      <app-poster-image
+        class="collection-card__poster"
+        [path]="movie.posterPath"
+        alt=""
+        sizes="(min-width: 960px) 10rem, 32vw"
+      />
+    } @empty {
+      <mat-icon class="collection-card__preview-icon">video_library</mat-icon>
+    }
+  </div>
+
   <mat-card-header>
     <h3 mat-card-title class="collection-card__title">
       <button class="collection-card__link" type="button" (click)="open.emit(collection().id)">
@@ -11,8 +28,6 @@
     <!-- Reserves the description height when empty. -->
     <p class="collection-card__description">{{ collection().description }}</p>
   </mat-card-content>
-
-  <mat-divider />
 
   <mat-card-actions class="collection-card__footer">
     <span class="collection-card__count">

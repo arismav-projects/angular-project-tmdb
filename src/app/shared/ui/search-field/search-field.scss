@@ -1,8 +1,14 @@
 :host {
   display: block;
+  inline-size: 100%;
 }
 
 .search-field {
-  // Parent owns available width.
   width: 100%;
+
+  --mat-form-field-outlined-container-shape: var(--radius-lg);
+
+  mat-icon[matprefix] {
+    color: var(--color-accent);
+  }
 }

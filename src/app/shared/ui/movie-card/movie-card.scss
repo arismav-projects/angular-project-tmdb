@@ -16,7 +16,7 @@
   block-size: 100%;
   background-color: var(--color-surface-raised);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
 
   @include a.motion-safe {
     transition:
@@ -40,8 +40,8 @@
 
     // Clip poster zoom to the card's top corners.
     overflow: hidden;
-    border-start-start-radius: var(--radius-lg);
-    border-start-end-radius: var(--radius-lg);
+    border-start-start-radius: var(--radius-md);
+    border-start-end-radius: var(--radius-md);
   }
 
   &__poster {

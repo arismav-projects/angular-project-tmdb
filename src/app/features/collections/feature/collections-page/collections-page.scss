@@ -8,7 +8,9 @@
 
 .collections-page {
   &__grid {
-    @include a.card-grid(16.25rem);
+    @include a.card-grid(17.5rem);
+
+    gap: var(--space-lg);
   }
 
   &__item {

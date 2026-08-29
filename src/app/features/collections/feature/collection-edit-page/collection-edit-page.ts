@@ -12,7 +12,12 @@ import { CollectionForm, CollectionFormValue } from '../../ui/collection-form/co
   imports: [PageHeader, CollectionForm, EmptyState],
   template: `
     @if (initial(); as value) {
-      <app-page-header heading="Edit collection" backLabel="Back to collection" (back)="cancel()" />
+      <app-page-header
+        heading="Edit collection"
+        icon="edit"
+        backLabel="Back to collection"
+        (back)="cancel()"
+      />
 
       <app-collection-form
         [initial]="value"

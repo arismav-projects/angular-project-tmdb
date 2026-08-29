@@ -5,6 +5,7 @@
 
   // Let cards shrink inside grid tracks.
   min-inline-size: 0;
+  inline-size: 100%;
   block-size: 100%;
 }
 
@@ -12,19 +13,58 @@
   // Override Material through tokens.
   --mat-card-outlined-outline-color: var(--color-border);
   --mat-card-outlined-container-color: var(--color-surface-raised);
+  --mat-card-outlined-container-shape: var(--radius-md);
 
+  position: relative;
   block-size: 100%;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
 
   @include a.motion-safe {
     transition:
       border-color var(--duration-base) var(--easing-standard),
-      box-shadow var(--duration-base) var(--easing-standard);
+      box-shadow var(--duration-base) var(--easing-standard),
+      transform var(--duration-base) var(--easing-standard);
   }
 
   &:hover {
     --mat-card-outlined-outline-color: var(--color-border-strong);
 
     box-shadow: var(--shadow-md);
+
+    @include a.motion-safe {
+      transform: translateY(-2px);
+    }
+  }
+
+  &__preview {
+    display: grid;
+    grid-template-columns: repeat(var(--poster-count), minmax(0, 1fr));
+    place-items: stretch;
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+    color: var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-accent) 9%, var(--color-surface-sunken));
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  &__poster {
+    min-inline-size: 0;
+    block-size: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
+
+    & + & {
+      border-inline-start: 1px solid color-mix(in srgb, var(--color-border) 72%, transparent);
+    }
+  }
+
+  &__preview-icon {
+    place-self: center;
+    font-size: 3.25rem;
+    inline-size: 3.25rem;
+    block-size: 3.25rem;
+    opacity: 0.72;
   }
 
   &__title {
@@ -78,6 +118,7 @@
   &__footer {
     justify-content: space-between;
     gap: var(--space-xs);
+    border-block-start: 1px solid var(--color-border);
   }
 
   &__count {

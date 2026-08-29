@@ -1,4 +1,4 @@
-<app-page-header heading="Your collections">
+<app-page-header heading="Your collections" icon="video_library">
   <app-action-button
     actions
     appearance="filled"
@@ -21,9 +21,17 @@
     @for (collection of collections.collections(); track collection.id) {
       <li class="collections-page__item" [style.--enter-index]="$index">
         <app-collection-card [collection]="collection" (open)="open($event)">
-          <app-action-button actions icon="edit" label="Edit" (action)="edit(collection.id)" />
           <app-action-button
             actions
+            appearance="tonal"
+            tone="secondary"
+            icon="edit"
+            label="Edit"
+            (action)="edit(collection.id)"
+          />
+          <app-action-button
+            actions
+            tone="error"
             icon="delete"
             label="Delete"
             (action)="requestDelete(collection)"
