@@ -371,14 +371,4 @@ module.exports = defineConfig([
       '@angular-eslint/template/cyclomatic-complexity': ['warn', { maxComplexity: 8 }],
     },
   },
-
-  // Test-only relaxations.
-  {
-    files: ['**/*.spec.ts'],
-    rules: {
-      '@angular-eslint/prefer-on-push-component-change-detection': 'off',
-      '@angular-eslint/use-component-selector': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'off',
-    },
-  },
 ]);
