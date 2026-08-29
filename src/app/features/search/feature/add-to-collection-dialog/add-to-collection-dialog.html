@@ -6,12 +6,15 @@
       @for (collection of store.collections(); track collection.id) {
         <li class="add-to-collection__item">
           <mat-checkbox
+            class="add-to-collection__checkbox"
             [checked]="isSelected(collection.id)"
             (change)="onToggle(collection.id, $event)"
           >
-            {{ collection.title }}
-            <span class="add-to-collection__count"> {{ collection.movies.length }} film(s) </span>
+            <span class="add-to-collection__title" [title]="collection.title">
+              {{ collection.title }}
+            </span>
           </mat-checkbox>
+          <span class="add-to-collection__count"> {{ collection.movies.length }} film(s) </span>
         </li>
       }
     </ul>
