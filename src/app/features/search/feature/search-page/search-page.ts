@@ -13,7 +13,6 @@ import { SearchFacade } from '../../data-access/search.facade';
 import {
   type MovieSelection,
   SearchResults,
-  type SearchResultsState,
   type SearchResultsVm,
 } from '../../ui/search-results/search-results';
 import { SelectionBar } from '../../ui/selection-bar/selection-bar';
@@ -46,7 +45,7 @@ export class SearchPage {
 
     return {
       movies: results.items,
-      state: this.resultsState(),
+      status: this.search.status(),
       errorMessage: this.errorMessage(),
       selectedIds: this.search.selectedIds(),
       pagination: {
@@ -85,21 +84,5 @@ export class SearchPage {
         // Selection is cleared after either confirmation or dismissal.
         // this.search.clearSelection();
       });
-  }
-
-  private resultsState(): SearchResultsState {
-    if (this.search.isLoading()) {
-      return 'loading';
-    }
-
-    if (this.errorMessage() !== '') {
-      return 'error';
-    }
-
-    if (this.search.isIdle()) {
-      return 'idle';
-    }
-
-    return this.search.isEmpty() ? 'empty' : 'ready';
   }
 }

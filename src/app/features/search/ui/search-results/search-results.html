@@ -24,7 +24,7 @@
 
 @if (isLoading()) {
   <app-skeleton variant="card" [count]="8" />
-} @else if (errorMessage()) {
+} @else if (isError()) {
   <app-empty-state
     variant="error"
     heading="Search failed"

@@ -11,8 +11,6 @@ export interface MovieSelection {
   readonly isSelected: boolean;
 }
 
-export type SearchResultsState = 'idle' | 'loading' | 'empty' | 'ready' | 'error';
-
 export interface SearchResultsPagination {
   readonly page: number;
   readonly totalPages: number;
@@ -22,7 +20,7 @@ export interface SearchResultsPagination {
 
 export interface SearchResultsVm {
   readonly movies: readonly Movie[];
-  readonly state: SearchResultsState;
+  readonly status: 'idle' | 'loading' | 'loaded' | 'error';
   readonly errorMessage: string;
   readonly selectedIds: ReadonlySet<number>;
   readonly pagination: SearchResultsPagination;
@@ -45,9 +43,12 @@ export class SearchResults {
   readonly pageSelected = output<number>();
   readonly retry = output<void>();
 
-  protected readonly isIdle = computed(() => this.vm().state === 'idle');
-  protected readonly isLoading = computed(() => this.vm().state === 'loading');
-  protected readonly isEmpty = computed(() => this.vm().state === 'empty');
+  protected readonly isIdle = computed(() => this.vm().status === 'idle');
+  protected readonly isLoading = computed(() => this.vm().status === 'loading');
+  protected readonly isError = computed(() => this.vm().status === 'error');
+  protected readonly isEmpty = computed(
+    () => this.vm().status === 'loaded' && this.vm().movies.length === 0,
+  );
   protected readonly errorMessage = computed(() => this.vm().errorMessage);
   protected readonly selectedIds = computed(() => this.vm().selectedIds);
   protected readonly pageSize = computed(() => this.vm().pagination.pageSize);
@@ -63,7 +64,7 @@ export class SearchResults {
   });
 
   protected readonly showToolbar = computed(
-    () => this.length() > 0 && !this.isIdle() && this.errorMessage() === '',
+    () => this.length() > 0 && !this.isIdle() && !this.isError(),
   );
 
   protected readonly resultCountLabel = computed(() => {

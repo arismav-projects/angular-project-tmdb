@@ -4,11 +4,13 @@ import { emptyPage, Paginated } from '@core/models/paginated.model';
 import { Movie, MovieService, MovieSnapshot, toSnapshot } from '@domain/movies';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 
+type SearchStatus = 'idle' | 'loading' | 'loaded' | 'error';
+
 interface SearchState {
   readonly query: string;
   readonly page: number;
   readonly results: Paginated<Movie>;
-  readonly status: 'idle' | 'loading' | 'loaded' | 'error';
+  readonly status: SearchStatus;
   readonly error: AppError | null;
 }
 
@@ -34,13 +36,8 @@ export class SearchFacade {
   readonly query = computed(() => this.state().query);
   readonly page = computed(() => this.state().page);
   readonly results = computed(() => this.state().results);
-  readonly isIdle = computed(() => this.state().status === 'idle');
-  readonly isLoading = computed(() => this.state().status === 'loading');
+  readonly status = computed(() => this.state().status);
   readonly error = computed(() => this.state().error);
-
-  readonly isEmpty = computed(
-    () => this.state().status === 'loaded' && this.state().results.items.length === 0,
-  );
 
   readonly selectedCount = computed(() => this._selection().length);
 
